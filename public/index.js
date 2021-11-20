@@ -158,7 +158,7 @@ const reset = () => {
 }
 
 const getPlayerStats = () => {
-    axios.get('/api/player')
+    axios.get('http://localhost:3000/api/player')
         .then(({data: {wins, losses}}) => {
             winsText.textContent = `Wins: ${wins}`
             lossesTest.textContent = `Losses: ${losses}`
@@ -166,7 +166,7 @@ const getPlayerStats = () => {
 }
 
 const getAllBots = () => {
-    axios.get('http:localhost:3000/api/robots')
+    axios.get('http://localhost:3000/api/robots')
         .then(({data}) => {
             allBotsDiv.innerHTML = ''
         
