@@ -20,7 +20,7 @@ app.get('/js', (req, res) => {
     
 })
 
-app.get('http://localhost:3000/api/robots', (req, res) => {
+app.get('/api/robots', (req, res) => {
     console.log(req)
     // try {
     //     res.status(200).send(botsArr)
