@@ -10,17 +10,13 @@ app.use(express.static('public')) //Added this to bring in the docs in the publi
 //Handles the Get request for stylesheet.
 app.get('/styles', (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.css"))
-    .catch(err => {
-        res.status(500).send(`Error on getting files from the public folder.`)
-    })
+    
 })
 
 //Handles the Get request for functions related to the buttons on the page. 
-app.get('/js', () => {
+app.get('/js', (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.js"))
-    .catch(err => {
-        res.status(500).send(`Error on getting files from the public folder.`)
-    })
+    
 })
 
 app.get('/api/robots', (req, res) => {
