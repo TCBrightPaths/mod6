@@ -1,13 +1,12 @@
 const express = require('express')
 const path = require('path')
-const cors = require('cors')
 const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
 
 app.use(express.json())
-app.use(cors())
+
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
 //Handles the Get request for stylesheet.
@@ -23,13 +22,12 @@ app.get('/js', (req, res) => {
 })
 
 app.get('/api/robots', (req, res) => {
-    console.log(req)
-    // try {
-    //     res.status(200).send(botsArr)
-    // } catch (error) {
-    //     console.log('ERROR GETTING BOTS', error)
-    //     res.sendStatus(400)
-    // }
+    try {
+        res.status(200).send(bots)
+    } catch (error) {
+        console.log('ERROR GETTING BOTS', error)
+        res.sendStatus(400)
+    }
 })
 
 app.get('/api/robots/five', (req, res) => {
