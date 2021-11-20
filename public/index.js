@@ -166,7 +166,7 @@ const getPlayerStats = () => {
 }
 
 const getAllBots = () => {
-    axios.get('/api/robots')
+    axios.get('http:localhost:3000/api/robots')
         .then(({data}) => {
             allBotsDiv.innerHTML = ''
         
