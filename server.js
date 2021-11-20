@@ -1,11 +1,13 @@
 const express = require('express')
 const path = require('path')
+const cors = require('cors')
 const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
 
 app.use(express.json())
+app.use(cors())
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
 //Handles the Get request for stylesheet.
