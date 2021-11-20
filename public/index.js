@@ -166,7 +166,7 @@ const getPlayerStats = () => {
 }
 
 const getAllBots = () => {
-    axios.get('/api/robots', {mode: 'no-cors'})
+    axios.get('/api/robots')
         .then(({data}) => {
             allBotsDiv.innerHTML = ''
         
