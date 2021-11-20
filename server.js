@@ -4,6 +4,7 @@ const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+
 app.use(express.json())
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
@@ -19,13 +20,14 @@ app.get('/js', (req, res) => {
     
 })
 
-app.get('/api/robots', (req, res) => {
-    try {
-        res.status(200).send(botsArr)
-    } catch (error) {
-        console.log('ERROR GETTING BOTS', error)
-        res.sendStatus(400)
-    }
+app.get('http://localhost:3000/api/robots', (req, res) => {
+    console.log(req)
+    // try {
+    //     res.status(200).send(botsArr)
+    // } catch (error) {
+    //     console.log('ERROR GETTING BOTS', error)
+    //     res.sendStatus(400)
+    // }
 })
 
 app.get('/api/robots/five', (req, res) => {
