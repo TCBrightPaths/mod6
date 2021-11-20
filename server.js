@@ -9,6 +9,16 @@ app.use(express.json())
 
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
+//Trying to fix promise issue.
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
+
 //Handles the Get request for stylesheet.
 app.get('/styles', (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.css"))
