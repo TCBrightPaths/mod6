@@ -1,5 +1,14 @@
 const express = require('express')
 const path = require('path')
+
+//adding rollbar
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: 'f594a00ad0804b7286d4e757e19b8ef5',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
 const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
@@ -9,7 +18,7 @@ app.use(express.json())
 
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
-//To fix promise issue. 
+//To fix CORS error. 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header(
@@ -18,6 +27,9 @@ app.use((req, res, next) => {
     );
     next();
   });
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
 
 //Handles the Get request for stylesheet.
 app.get('/styles', (req, res) => {
@@ -35,6 +47,7 @@ app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(bots)
     } catch (error) {
+        Rollbar.error('Cannot show bots')
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
     }
@@ -47,6 +60,7 @@ app.get('/api/robots/five', (req, res) => {
         let compDuo = shuffled.slice(6, 8)
         res.status(200).send({choices, compDuo})
     } catch (error) {
+        rollbar.critical('Cannot Get bots')
         console.log('ERROR GETTING FIVE BOTS', error)
         res.sendStatus(400)
     }
@@ -71,14 +85,14 @@ app.post('/api/duel', (req, res) => {
 
         // comparing the total health to determine a winner
         if (compHealthAfterAttack > playerHealthAfterAttack) {
-            playerRecord.losses++
+            playerRecord.losses--
             res.status(200).send('You lost!')
         } else {
             playerRecord.losses++
             res.status(200).send('You won!')
         }
     } catch (error) {
-        console.log('ERROR DUELING', error)
+        rollbar.log('ERROR DUELING', error)
         res.sendStatus(400)
     }
 })
@@ -87,10 +101,13 @@ app.get('/api/player', (req, res) => {
     try {
         res.status(200).send(playerRecord)
     } catch (error) {
+        rollbar.warning('Warning: Cannot load stats')
         console.log('ERROR GETTING PLAYER STATS', error)
         res.sendStatus(400)
     }
 })
+
+app.use(rollbar.errorHandler())
 
 const port = process.env.PORT || 3000
 
