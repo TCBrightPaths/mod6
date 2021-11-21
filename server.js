@@ -9,7 +9,7 @@ app.use(express.json())
 
 app.use(express.static('public')) //Added this to bring in the docs in the public folder.
 
-//Trying to fix promise issue.
+//To fix promise issue. 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header(
